@@ -7,6 +7,12 @@ import { ClockDrawingResult, ClockEvent } from '@/types/clockEvents';
 import { toPng } from 'html-to-image';
 import { useLocalVoiceGuide } from '@/hooks/useLocalVoiceGuide';
 import { flushSync } from 'react-dom'
+import { evaluateMiniCogClock, toPlacedElements } from '@/utils/evaluateMiniCogClock';
+import type { ClockCenter } from '@/types/miniCogClockScoring';
+
+// Numbers/hands are stored as 0-100 percentages of the (square) clock
+// container, so the center is always (50, 50) regardless of screen size.
+const CLOCK_CENTER: ClockCenter = { cx: 50, cy: 50 }
 interface AssessmentClockDrawingPageProps {
   onNext: (result: ClockDrawingResult) => void
 }
@@ -407,11 +413,17 @@ export const AssessmentClockDrawingPage: React.FC<AssessmentClockDrawingPageProp
   try {
     const finalImage = await captureClockArea()
 
+    const evaluation = evaluateMiniCogClock(
+      toPlacedElements({ numbers, hourHand, minuteHand }),
+      CLOCK_CENTER
+    )
+
     const finishedAt = Date.now()
 
     await onNext({
       final_image: finalImage,
       events: eventsRef.current,
+      evaluation,
       meta: {
         started_at: startedAtRef.current,
         finished_at: finishedAt,

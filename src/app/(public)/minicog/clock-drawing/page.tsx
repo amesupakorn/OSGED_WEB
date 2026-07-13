@@ -45,7 +45,7 @@ export default function ClockDrawingRoute() {
   return (
     <AppShell>
      <AssessmentClockDrawingPage
-      onNext={async ({ final_image, events }) => {
+      onNext={async ({ final_image, events, evaluation }) => {
         if (!sessionId) return
 
         const videoBlob = await stopAndGetVideo()
@@ -72,6 +72,7 @@ export default function ClockDrawingRoute() {
           video_media_id: videoRes.value.media_id,
           image_media_id: imageRes.value.media_id,
           events_media_id: eventsRes.value.media_id,
+          clock_score: evaluation.score,
         })
 
         router.push('/minicog/word-recall')
