@@ -1,4 +1,4 @@
-import {TGDSQuestion} from '@/types'
+import { TGDSQuestion } from '@/types'
 
 export const TGDS_QUESTIONS: TGDSQuestion[] = [
   { id: 1, text: 'โดยทั่วไปแล้วคุณพึงพอใจกับชีวิตตัวเองหรือไม่', scoreTarget: false },
@@ -11,7 +11,7 @@ export const TGDS_QUESTIONS: TGDSQuestion[] = [
   { id: 8, text: 'คุณรู้สึกหมดหนทางอยู่บ่อยครั้งหรือไม่', scoreTarget: true },
   { id: 9, text: 'คุณชอบอยู่กับบ้านมากกว่าออกไปหาอะไรทำนอกบ้านหรือไม่', scoreTarget: true },
   { id: 10, text: 'คุณรู้สึกว่าคุณมีปัญหาความจำมากกว่าใคร ๆ หรือไม่', scoreTarget: true },
-  { id: 11, text: 'คุณคิดว่าการที่มีชีวิตอยู่มาจนถึงทุกวันนี้มันช่างแสนวิเศษใช่หรือไม่', scoreTarget: false },
+  { id: 11, text: 'คุณคิดว่าการที่มีชีวิตอยู่มาจนถึงทุกวันนี้มันช่างแสนวิเศษหรือไม่', scoreTarget: false },
   { id: 12, text: 'คุณรู้สึกหรือไม่ว่าชีวิตที่กำลังเป็นอยู่ตอนนี้ช่างไร้ค่าเหลือเกิน', scoreTarget: true },
   { id: 13, text: 'คุณรู้สึกมีกำลังเต็มที่หรือไม่', scoreTarget: false },
   { id: 14, text: 'คุณรู้สึกหมดหวังกับสิ่งที่คุณกำลังเผชิญอยู่หรือไม่', scoreTarget: true },

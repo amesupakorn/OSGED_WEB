@@ -273,15 +273,17 @@ export const AssessmentWordRegistrationPage: React.FC<AssessmentWordRegistration
 
   const micGuideStartedRef = useRef(false)
 
-  const evaluateAnswer = async () => {
-    if (!sessionId || isEvaluating) return
+  const evaluateAnswer = async (overrideTranscript?: string) => {
+    if (!sessionId) return
+
+    const finalTranscriptText = overrideTranscript !== undefined ? overrideTranscript : transcript
 
     try {
       setIsEvaluating(true)
 
       const result = await submitWordRegistration({
         session_id: sessionId,
-        transcript,
+        transcript: finalTranscriptText,
       })
 
       setAttempt(result.attempt)
@@ -492,11 +494,11 @@ export const AssessmentWordRegistrationPage: React.FC<AssessmentWordRegistration
                 if (isListening) {
                   setIsEvaluating(true)
 
-                  await stopListening()
+                  const finalSpeech = await stopListening()
 
                   await new Promise(r => setTimeout(r, 200))
 
-                  await evaluateAnswer()
+                  await evaluateAnswer(finalSpeech)
 
                 } else {
                   resetTranscript()

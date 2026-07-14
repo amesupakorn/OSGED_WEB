@@ -53,7 +53,7 @@ export function useTGDSAudioRecorder({ enabled = true }: Options = {}) {
       return stream
     }
 
-  const start = useCallback(async () => {
+  const start = useCallback(async (existingStream?: MediaStream | null) => {
 
     if (!enabled || isRecording) return
     if (recorderRef.current) {
@@ -65,7 +65,14 @@ export function useTGDSAudioRecorder({ enabled = true }: Options = {}) {
       setError(null)
       chunksRef.current = []
 
-      const stream = await initStream()
+      // If an existing stream with audio tracks is provided, reuse it
+      let stream: MediaStream
+      if (existingStream && existingStream.getAudioTracks().length > 0) {
+        stream = new MediaStream(existingStream.getAudioTracks())
+        streamRef.current = stream
+      } else {
+        stream = await initStream()
+      }
 
       const mimeType = getSupportedMimeType()
 

@@ -64,7 +64,7 @@ export const TGDSAnswerPage: React.FC<Props> = ({
   const {
     start: startAudio,
     stop: stopAudio,
-    getStream
+    getStream: getAudioStream
   } = useTGDSAudioRecorder()
 
   /* ================= VIDEO ================= */
@@ -74,7 +74,8 @@ export const TGDSAnswerPage: React.FC<Props> = ({
     startRecording,
     stopRecordingOnly,
     initCamera,
-    isUploading
+    isUploading,
+    getStream: getCombinedStream
   } = useTGDSRecordingUpload({
     uploadFn: async (blob) => {
 
@@ -213,7 +214,7 @@ const processTranscriptForAnswer = (
 
     onUserActivity()
 
-    accumulatedTranscriptRef.current += ' ' + transcript
+    accumulatedTranscriptRef.current = transcript
 
     const detected =
       processTranscriptForAnswer(
@@ -249,10 +250,16 @@ const processTranscriptForAnswer = (
 
     if (isListening) {
 
-      await stopListening()
+      const finalSpeech = await stopListening()
 
       audioBlobRef.current = await stopAudio()
       stopRecordingOnly()
+
+      const detected = processTranscriptForAnswer(finalSpeech)
+      if (detected !== null) {
+        setFinalAnswer(detected)
+        setHasDetectedAnswer(true)
+      }
       return
 
 
@@ -270,9 +277,9 @@ const processTranscriptForAnswer = (
 
       await new Promise(r => setTimeout(r, 150))
 
-      await startAudio()
+      const stream = getCombinedStream()
 
-      const stream = getStream()
+      await startAudio(stream)
 
       if (stream) {
         await startListening(stream)

@@ -39,7 +39,11 @@ export function useTGDSRecordingUpload({ uploadFn }: Options) {
         frameRate: { ideal: 24 },
         facingMode: 'user',
       },
-      audio: false,
+      audio: {
+        echoCancellation: true,
+        noiseSuppression: true,
+        channelCount: 1,
+      },
     })
 
     streamRef.current = stream
@@ -56,12 +60,15 @@ export function useTGDSRecordingUpload({ uploadFn }: Options) {
     const mimeType = getSupportedMimeType()
     mimeTypeRef.current = mimeType
 
+    // Create a video-only stream from the combined stream for video recording
+    const videoOnlyStream = new MediaStream(stream.getVideoTracks())
+
     const recorder = mimeType
-      ? new MediaRecorder(stream, {
+      ? new MediaRecorder(videoOnlyStream, {
           mimeType,
           videoBitsPerSecond: 700000,
         })
-      : new MediaRecorder(stream)
+      : new MediaRecorder(videoOnlyStream)
 
     recorder.ondataavailable = (e) => {
       if (e.data && e.data.size > 0) {
@@ -144,6 +151,7 @@ export function useTGDSRecordingUpload({ uploadFn }: Options) {
     initCamera,
     stopCamera,
     isRecording,
-    isUploading
+    isUploading,
+    getStream: () => streamRef.current
   }
 }

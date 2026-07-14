@@ -83,17 +83,6 @@ export const Hero: React.FC<HeroProps> = ({ onStart, onOpenInfo, onOpenPDPA }) =
               className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700"
             />
           </div>
-
-          {/* Floating Card UI for visual depth */}
-          <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-3xl shadow-xl border border-gray-100 hidden md:flex items-center gap-4 animate-bounce-slow">
-            <div className="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center">
-              <CheckCircle2 size={24} />
-            </div>
-            <div>
-              <p className="text-sm font-bold text-gray-900">แม่นยำสูง</p>
-              <p className="text-xs text-gray-400">อ้างอิงหลักการแพทย์</p>
-            </div>
-          </div>
         </div>
 
       </div>

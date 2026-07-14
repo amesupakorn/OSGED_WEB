@@ -642,14 +642,14 @@ export const AssessmentClockDrawingPage: React.FC<AssessmentClockDrawingPageProp
                   ${draggingId === 'minute' ? 'scale-105 ring-4 ring-primary/30' : ''}
                 `}
                 style={{
-                        width: minuteHand.isPlaced ? '35%' : '60%',
+                        width: '35%',
                         transform: `rotate(${minuteHand.angle - 90}deg) translateY(-50%)`,
                       }}
               >
                 <div
                   className="absolute top-1/2 left-0 h-3 bg-black transition-colors"
                   style={{
-                    width: '55%',
+                    width: '75%',
                     transform: 'translateY(-50%)',
                   }}
                 >

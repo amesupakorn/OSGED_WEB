@@ -51,21 +51,21 @@ export const AssessmentWordRecallPage: React.FC<AssessmentWordRecallPageProps> =
       .replace(/[่้๊๋]/g, '') 
       .toLowerCase()
   
-  const handleSubmit = () => {
+  const handleSubmit = (finalTranscript?: string) => {
     if (isSubmitting) return
 
     setIsSubmitting(true)
 
-    if (isListening) stopListening()
+    const textToSubmit = finalTranscript !== undefined ? finalTranscript : transcript
 
     const segments: SpeechSegment[] = [
       {
-        text: transcript,
+        text: textToSubmit,
         confidence: 1
       }
     ]
 
-    onNext(transcript, segments)
+    onNext(textToSubmit, segments)
 
     setIsEvaluating(false)
   }
@@ -203,17 +203,14 @@ export const AssessmentWordRecallPage: React.FC<AssessmentWordRecallPageProps> =
 
           {/* Mic */}
              <button
-                onClick={() => {
+                onClick={async () => {
                   if (isListening) {
                     setIsEvaluating(true)
-                    stopListening()
-
-                    setTimeout(handleSubmit, 500)
-    
+                    const finalSpeech = await stopListening()
+                    handleSubmit(finalSpeech)
                   } else {
                    resetTranscript()
                     startListening()
-
                   }
                 }}
                 disabled={isSpeaking || isSubmitting}
