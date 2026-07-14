@@ -1,3 +1,5 @@
+import type { MiniCogClockEvaluation } from '@/types/miniCogClockScoring'
+
 export type ClockEvent =
   | {
       type: 'place_number'
@@ -29,6 +31,7 @@ export type ClockEvent =
   export interface ClockDrawingResult {
   final_image: string          // base64 PNG
   events: ClockEvent[]         // interaction log
+  evaluation: MiniCogClockEvaluation // Mini-Cog automated score, computed client-side at submit
   meta: {
     started_at: number
     finished_at: number
